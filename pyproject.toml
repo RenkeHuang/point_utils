@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "point_utils"
-version = "0.1"
+version = "0.1.0"
 authors = [
     { name="Renke Huang", email="renke.huang@alumni.emory.edu" },
 ]
