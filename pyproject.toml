@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "point_utils"
+version = "0.1"
+authors = [
+    { name="Renke Huang", email="renke.huang@alumni.emory.edu" },
+]
+description = "Compute offset points to a 3-D point cloud."
+readme = "README.md"
+requires-python = ">=3.9"
+# sync with requirements.txt
+dependencies = [
+    'numpy >= 1.20.0',
+    'scipy',
+    'matplotlib',
+    'scikit-learn >= 0.24.0',
+    'pydantic >= 1.10',
+    'PyYAML >= 6.0',
+]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords = ["spatial", "3D geometry", "offset"]
+
+[project.urls]
+homepage = "https://github.com/RenkeHuang/point_utils"
+
+[project.scripts]
+RUN = "scripts.main:main" # Maps the command to the main function in modules/main.py
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[project.optional-dependencies]
+# sync with requirements-dev.txt
+test = ["pytest >= 6.0", "pytest-cov", "pytest-env"]
+
+[tool.pytest.ini_options]
+# --cov-report=term-missing
+addopts = "--cov=point_utils"
+testpaths = ["tests"]
+
+[tool.pytest.ini_options.env]
+PYTHONDONTWRITEBYTECODE = "1"
+
+[tool.coverage.run]
+omit = [
+    "*/__init__.py",
+    "*/tests/*",
+]
+
+# [tool.setuptools.package-data]

@@ -1,0 +1,36 @@
+# Name of the workflow: Tests
+name: unit tests
+
+# Defines the events that trigger the workflow.
+# Here, the workflow runs on push and pull requests to the main branch.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# jobs: Defines the tasks that the workflow will execute.
+# Here, there is a single job named test.
+jobs:
+  test:
+    # Set up an Ubuntu runner with the latest version of Ubuntu.
+    runs-on: ubuntu-latest
+
+    steps:
+    # Check out the repository code into the workflow runner.
+    # It allows subsequent steps to access the files in the repository.
+    - uses: actions/checkout@v3
+    # Configure Python environment.
+    - uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+    # Install the package in editable mode (.) along with test dependencies
+    # defined in pyproject.toml
+    - run: pip install .[test]
+    # Execute the test suite using pytest.
+    - run: pytest --cov=modules --cov-report=xml
+    - uses: codecov/codecov-action@v3
+      with:
+        file: coverage.xml

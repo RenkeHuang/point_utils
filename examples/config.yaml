@@ -1,0 +1,4 @@
+input_file: "examples/cdd.txt"
+offset_magnitude: 2
+output_file: "examples/output.txt"
+visualize: false
