@@ -1,4 +1,7 @@
-input_file: "examples/cdd.txt"
+input_file: examples/cdd.txt
 offset_magnitude: 2
-output_file: "examples/output.txt"
-visualize: false
+data_label_to_offset: B
+new_data_label: C
+offset_method: KDTreeOffsets
+output_file: examples/KDTree.txt
+visualize: False
