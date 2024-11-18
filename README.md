@@ -1,7 +1,7 @@
-point_utils
-==============================
-<!-- [//]: # (Badges) -->
+# Point Utils
 
+[![Docker Image Version](https://img.shields.io/docker/v/renkeh/point_utils?sort=semver)](https://hub.docker.com/r/renkeh/point_utils)
+[![Docker Pulls](https://img.shields.io/docker/pulls/renkeh/point_utils)](https://hub.docker.com/r/renkeh/point_utils)
 
 **point_utils** is a Python package for computing offset points to a 3-D point cloud.
 
