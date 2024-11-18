@@ -16,7 +16,7 @@ dependencies = [
     'numpy >= 1.20.0',
     'scipy',
     'matplotlib',
-    'scikit-learn >= 0.24.0',
+    # 'scikit-learn >= 0.24.0',
     'pydantic >= 1.10',
     'PyYAML >= 6.0',
 ]
