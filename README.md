@@ -42,6 +42,10 @@ RUN -config examples/config.yaml
 # Run in the root directory where the Dockerfile is located
 docker build --no-cache -t point_utils:latest .
 ```
+**Pull the latest image from the dockerhub**:
+```bash
+docker pull renkeh/point_utils:0.1.1
+```
 
 ### Run Docker image
 Check out the DockerHub [repository overview page](https://hub.docker.com/repository/docker/renkeh/point_utils/general) for more details.
