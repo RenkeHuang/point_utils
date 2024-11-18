@@ -11,7 +11,7 @@ The project is under active development and is hosted on [GitHub](https://github
 
 To run the point_utils container and retrieve the result, use the following Docker command:
 ```bash
-docker run --rm --name point_utils_container -v $(PWD)/examples:/app/examples renkeh/point_utils:0.1.0
+docker run --rm --name point_utils_container -v $(PWD)/examples:/app/examples renkeh/point_utils:0.1.1
 ```
 This command runs the container and saves the output file to the `examples` directory
 on your local machine.
@@ -21,13 +21,13 @@ directory on your local host.s
 Alternatively, you can start the container with an interactive shell, and manually
 execute the entry script in the shell:
 ```bash
-docker run --rm -it --name point_utils_container point_utils:latest /bin/bash
+docker run --rm -it --name point_utils_container point_utils:0.1.1 /bin/bash
 RUN -config examples/config.yaml
 ```
 
 You can also override the default CMD to run other scripts. For example:
 ```
-docker run --rm -v $(PWD)/examples:/app/examples point_utils:latest python scripts/visualize.py examples/cdd.txt -o examples/fig.png
+docker run --rm -v $(PWD)/examples:/app/examples point_utils:0.1.1 python scripts/visualize.py examples/cdd.txt -o examples/fig.png
 ```
 This command generates a plot from the specified data file (`examples/cdd.txt`) and saves the output (`examples/fig.png`) back to the `examples` directory on your local host.
 
@@ -64,8 +64,11 @@ RUN pip install -e .
 CMD ["python", "scripts/main.py", "-config", "examples/config.yaml"]
 ```
 ## Version Log
+**Version 0.1.1**
+- Support two new methods, convex hull and radial expansion for offset vector computations
+
 **Version 0.1.0**
-- support KDTree for offset vector computations
+- Support KDTree for offset vector computations
 
 ## License
 This project is licensed under the MIT License.

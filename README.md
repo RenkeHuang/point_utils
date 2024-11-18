@@ -47,17 +47,17 @@ docker build --no-cache -t point_utils:latest .
 Check out the DockerHub [repository overview page](https://hub.docker.com/repository/docker/renkeh/point_utils/general) for more details.
 ```bash
 # Run the Container and persist the output with Docker volume (map examples directory inside the container to the examples directory on local host)
-docker run --rm --name point_utils_container -v $(PWD)/examples:/app/examples point_utils:latest
+docker run --rm --name point_utils_container -v $(PWD)/examples:/app/examples point_utils:0.1.1
 
 # If starting the Container with an interactive shell, manually execute the entry script in the shell
 # -i: keep STDIN open, -t: allocate a pseudo-TTY for the shell session.
 # /bin/bash: open a bash shell inside the container.
-docker run --rm -it --name point_utils_container point_utils:latest /bin/bash
+docker run --rm -it --name point_utils_container point_utils:0.1.1 /bin/bash
 RUN -config examples/config.yaml
 
 # Override the default CMD:
 # The following command generates a plot for the data, and copy back to local host
-docker run --rm -v $(PWD)/examples:/app/examples point_utils:latest python scripts/visualize.py examples/cdd.txt -o examples/fig.png
+docker run --rm -v $(PWD)/examples:/app/examples point_utils:0.1.1 python scripts/visualize.py examples/cdd.txt -o examples/fig.png
 ```
 
 ## Testing
@@ -98,7 +98,7 @@ Here we give a brief overview of these methods:
 #### Local Information Methods
 Methods focus on local data characteristics, and rely on the immediate surroundings of the target point to determine the direction of the offset vectors.
 
-- **Nearest-Neighbor via K-D Tree**: Calculate the average displacement vectors from each "B" point to its nearest neighbors and use the opposite direction of this mean vector as the direction of the offset vector for the "B" point. 
+- **Nearest-Neighbor via K-D Tree**: Calculate the average displacement vectors from each "B" point to its nearest neighbors and use the opposite direction of this mean vector as the direction of the offset vector for the "B" point.
 
 - **Surface Normals via Local Surface Fitting**: Fit a local surface around each "B" point using techniques such as least squares fitting. Compute the surface normal from this fitted surface and use it as the direction for the offset vector.
 
@@ -107,7 +107,7 @@ Methods focus on local data characteristics, and rely on the immediate surroundi
 
 ####  Global Information Methods
 Methods consider the global structure or properties of the entire dataset.
-- **Surface Normals via Convex Hull Method**: Construct a Convex Hull for the entire point cloud to determine the global geometric boundaries. Compute the normals of the convex hull to define the direction of the offset vectors. 
+- **Surface Normals via Convex Hull Method**: Construct a Convex Hull for the entire point cloud to determine the global geometric boundaries. Compute the normals of the convex hull to define the direction of the offset vectors.
 
 - **Radial Expansion**: Calculate the centroid of the entire point cloud. For each B point, computes the vector pointing from the centroid to the point and uses this direction for the offset vector.
 
@@ -118,4 +118,11 @@ Methods consider the global structure or properties of the entire dataset.
 #### Currently the following three methods are supported:
 - Nearest-Neighbor via K-D Tree, implemented in **[KDTreeOffsets](https://github.com/RenkeHuang/point_utils/blob/c5e63ef8e1f9814d2f763a5323391dddd09fdba2/point_utils/offsetter.py#L98-L99) class**
 - Convex Hull, implemented in **[ConvexHullOffsets](https://github.com/RenkeHuang/point_utils/blob/c5e63ef8e1f9814d2f763a5323391dddd09fdba2/point_utils/offsetter.py#L153-L154) class**
-- Radial Expansion, implemented in **[CentroidOffsets](https://github.com/RenkeHuang/point_utils/blob/c5e63ef8e1f9814d2f763a5323391dddd09fdba2/point_utils/offsetter.py#L201-L202) class** 
+- Radial Expansion, implemented in **[CentroidOffsets](https://github.com/RenkeHuang/point_utils/blob/c5e63ef8e1f9814d2f763a5323391dddd09fdba2/point_utils/offsetter.py#L201-L202) class**
+
+## Version Log
+**Version 0.1.1**
+- Support two new methods, convex hull and radial expansion for offset vector computations
+
+**Version 0.1.0**
+- Support KDTree for offset vector computations
