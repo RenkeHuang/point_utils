@@ -4,12 +4,15 @@ import pytest
 from point_utils import offset_factory, get_data_from_txt
 from point_utils.offsetter import OFFSET_METHOD_TO_CLASS
 
+
 @pytest.fixture
 def data_dir():
     # Return the path to the data directory
     return Path(__file__).parent / "data"
 
-@pytest.mark.parametrize("offset_method", ["KDTreeOffsets"])
+
+@pytest.mark.parametrize(
+    "offset_method", ["KDTreeOffsets", "CentroidOffsets", "ConvexHullOffsets"])
 def test_offset_factory(data_dir, offset_method):
     inp_file = data_dir / "cdd.txt"
     all_coordinates, labels = get_data_from_txt(inp_file)
@@ -32,5 +35,7 @@ def test_offset_factory(data_dir, offset_method):
     offset_calculator.add_offset_points(**kwargs)
 
     # Check if the number of new points is as expected
-    assert offset_calculator.all_coordinates.shape[0] == len(labels) + expected_num_new_points
-    assert offset_calculator.labels.shape[0] == len(labels) + expected_num_new_points
+    assert offset_calculator.all_coordinates.shape[0] == len(
+        labels) + expected_num_new_points
+    assert offset_calculator.labels.shape[0] == len(
+        labels) + expected_num_new_points
