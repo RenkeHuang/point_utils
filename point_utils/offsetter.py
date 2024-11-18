@@ -161,26 +161,35 @@ class ConvexHullOffsets(OffsetsInterface):
     def get_offset_vecs(self, **kwargs):
         """
         Calculates offset vector for each selected point in the direction of the
-        outward normal of the convex hull.
-
+        outward normal of the closest triangle/facet on the convex hull.
         """
         # Compute the convex hull of the point cloud
         hull = ConvexHull(self.all_coordinates)
         hull_points = self.all_coordinates[hull.vertices]
+        centroid = np.mean(self.all_coordinates[hull.vertices], axis=0)
         tree = KDTree(hull_points)
 
         offset_vectors = []
         for idx in self.point_indices:
             point = self.all_coordinates[idx]
 
-            # Find the closest facet (triangle) of the convex hull
-            _, indices = tree.query(point.reshape(1, -1), k=1)
-            print(idx, indices)
+            # Find the nearest facet (triangle) of the convex hull
+            _, indices = tree.query(point.reshape(1, -1), k=3)
+            # Get the coordinates of the facet vertices
+            facet_coordinates = self.all_coordinates[indices[0]]
+            # Compute the outward normal vector of the facet
+            direction = np.cross(facet_coordinates[1] - facet_coordinates[0],
+                                 facet_coordinates[2] - facet_coordinates[0])
+            to_centroid = centroid - point
+            if np.dot(direction, to_centroid) > 0:
+                direction = -direction
 
+            # The following method doesn't work well, so commented out
             # Approximate the outward normal vector of facet by the vector from
             # the target point to the nearest hull vertex
-            nearest_vertex = hull_points[indices[0]]
-            direction = point - nearest_vertex
+            # _, indices = tree.query(point.reshape(1, -1), k=1)
+            # nearest_vertex = hull_points[indices[0]]
+            # direction = point - nearest_vertex
 
             # Normalize and scale the direction vector by the offset magnitude
             offset_vectors.append(
